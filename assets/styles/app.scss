@@ -38,3 +38,15 @@ body {
     background-color: blue;
   }
 }
+
+nav {
+  div .container-image {
+    background-image: url(../../public/build/images/patte.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 10%;
+    width: 50px;
+    // width: 300px;
+    // height: 40px;
+  }
+}

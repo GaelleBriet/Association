@@ -39,7 +39,11 @@ Encore
    * list of features, see:
    * https://symfony.com/doc/current/frontend.html#adding-more-features
    */
-  .cleanupOutputBeforeBuild()
+  .cleanupOutputBeforeBuild(["static"], (options) => {
+    options.verbose = true;
+    options.root = __dirname;
+    options.exclude = ["images"];
+  })
   .enableBuildNotifications()
   .enableSourceMaps(!Encore.isProduction())
   // enables hashed filenames (e.g. app.abc123.css)
