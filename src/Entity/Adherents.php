@@ -115,7 +115,7 @@ class Adherents
     {
         if (!$this->adhesions->contains($adhesion)) {
             $this->adhesions->add($adhesion);
-            $adhesion->setIdAdherent($this);
+            $adhesion->setAdherent($this);
         }
 
         return $this;
@@ -125,8 +125,8 @@ class Adherents
     {
         if ($this->adhesions->removeElement($adhesion)) {
             // set the owning side to null (unless already changed)
-            if ($adhesion->getIdAdherent() === $this) {
-                $adhesion->setIdAdherent(null);
+            if ($adhesion->getAdherent() === $this) {
+                $adhesion->setAdherent(null);
             }
         }
 

@@ -22,7 +22,7 @@ class Adhesions
 
     #[ORM\ManyToOne(inversedBy: 'adhesions')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Adherents $id_adherent = null;
+    private ?Adherents $adherent = null;
 
     public function getId(): ?int
     {
@@ -53,14 +53,14 @@ class Adhesions
         return $this;
     }
 
-    public function getIdAdherent(): ?Adherents
+    public function getAdherent(): ?Adherents
     {
-        return $this->id_adherent;
+        return $this->adherent;
     }
 
-    public function setIdAdherent(?Adherents $id_adherent): self
+    public function setAdherent(?Adherents $adherent): self
     {
-        $this->id_adherent = $id_adherent;
+        $this->adherent = $adherent;
 
         return $this;
     }

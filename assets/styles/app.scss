@@ -50,3 +50,16 @@ nav {
     // height: 40px;
   }
 }
+
+.bg-image-full {
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center;
+  background-size: cover;
+}
+
+footer {
+  a {
+    text-decoration: none;
+  }
+}
