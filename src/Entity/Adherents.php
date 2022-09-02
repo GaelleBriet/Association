@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AdherentsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AdherentsRepository::class)]
@@ -27,7 +28,7 @@ class Adherents
     #[ORM\Column(length: 100)]
     private ?string $email = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\OneToMany(mappedBy: 'id_adherent', targetEntity: Adhesions::class, orphanRemoval: true)]
