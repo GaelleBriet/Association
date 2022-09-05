@@ -14,7 +14,7 @@ final class Version20220901144451 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Change foreign key name between adhesions & adherents';
     }
 
     public function up(Schema $schema): void

@@ -14,7 +14,7 @@ final class Version20220901143712 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Create tables Adherents & Adhesions';
     }
 
     public function up(Schema $schema): void

@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\AdherentsRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AdherentsRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Adherents
 {
     #[ORM\Id]
@@ -28,11 +30,11 @@ class Adherents
     #[ORM\Column(length: 100)]
     private ?string $email = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
-    private ?\DateTimeImmutable $created_at = null;
-
     #[ORM\OneToMany(mappedBy: 'id_adherent', targetEntity: Adhesions::class, orphanRemoval: true)]
     private Collection $adhesions;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {
@@ -92,18 +94,6 @@ class Adherents
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Adhesions>
      */
@@ -132,5 +122,24 @@ class Adherents
         }
 
         return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+
+    #[ORM\PrePersist]
+    public function updateTimestamps()
+    {
+        $this->setCreatedAt(new \DateTimeImmutable);
     }
 }
