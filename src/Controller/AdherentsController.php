@@ -32,7 +32,16 @@ class AdherentsController extends AbstractController
         ]);
     }
 
-    #[Route('/{id<[0-9]+>/edit}', name: 'app_adherents_edit')]
+
+    // #[Route('/{id<[0-9]+>}/edit', name: 'app_adherents_edit', methods: 'GET|POST')]
+    // public function edit(Adherents $adherent): Response
+    // {
+    //     return $this->render('adherents/edit.html.twig', [
+    //         'adherent' => $adherent
+    //     ]);
+    // }
+
+    #[Route('/{id<[0-9]+>}/edit', name: 'app_adherents_edit')]
     public function edit(Adherents $adherent, Request $request, EntityManagerInterface $em): Response
     {
         $form = $this->createFormBuilder($adherent)
