@@ -1,0 +1,39 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title adherent.firstName ~ " " ~ adherent.lastName %}
+
+{% block body %}
+
+<div class="row">
+  <div class="col-md-6 mx-auto">
+    <article class="bg-white rounded shadow pin my-5">
+
+      <div class="row p-3">
+        <h1 class="h2 py-3 text-center">{{adherent.firstName ~" "~ adherent.lastName}}</h1>
+        <p class="text-muted text-center pb-5">
+            Adhérent créé le 
+            <time>{{adherent.createdAt|date('d-m-Y')}}</time>
+        </p>
+
+        <p class="col-4 ms-3 fw-semibold">Téléphone : </p>
+        <p class="col-6">{{adherent.tel}}</p>
+
+        <p class="col-4 ms-3 fw-semibold">E-mail : </p>
+        <p class="col-6">{{adherent.email}}</p>
+
+        <p class="col-4 ms-3 fw-semibold">Date d'adhésion: </p>
+        <p class="col-6"></p>
+
+        <p class="col-4 ms-3 fw-semibold">Date de fin d'adhésion : </p>
+        <p class="col-6"></p>
+      </div>
+
+      <div class="row p-5 justify-content-center">
+        <a href="{{ path('app_adherents_edit', {id: adherent.id}) }}" class="btn btn-warning col-8 mb-3">Modifier</a>
+        <a href="#" class="btn btn-danger col-8">Supprimer</a>
+      </div>    
+    </article>
+  </div>
+</div>
+
+{% endblock %}

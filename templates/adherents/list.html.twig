@@ -2,9 +2,7 @@
 
 {% block body %}
     <div class="container my-5">
-        <div class="row justify-content-center">
-            <p><a href="#">Ajouter un adhérent</a></p>
-        </div>
+
         <div class="row justify-content-center">
             <h2>{{ pluralize(adherents|length, 'Adhérent', 'Adhérents') }}</h2>
 
@@ -13,41 +11,49 @@
 
                     <thead class="text-light text-center" style="position: sticky; top: 0; background-color: var(--bs-gray-800);">
                         <tr class="rounded-top">
-                            <th style="position: sticky; top:0;">Numéro Adhérent</th>
+                            <th style="position: sticky; top:0;">Identifiant</th>
                             <th style="position: sticky; top:0;">Prénom</th>
                             <th style="position: sticky; top:0;">Nom</th>
                             <th style="position: sticky; top:0;">Téléphone</th>
                             <th style="position: sticky; top:0;">Adresse e-mail</th>
                             <th style="position: sticky; top:0;">Fin d 'adhésion</th>
-                            <th style="position: sticky; top:0;">Édition</th>
+                            <th style="position: sticky; top:0;">Actions</th>
                         </tr>
                     </thead>
 
                     <tbody class="text-center">
                         {% for adherent in adherents %}
-                            <tr style="background-color: rgb(255,204,204)">
+                            <tr class="table-striped">
                                 <td>{{ adherent.id }}</td>
                                 <td>{{ adherent.firstName }}</td>
                                 <td>{{ adherent.lastName }}</td>
                                 <td>{{ adherent.tel }}</td>
                                 <td>{{ adherent.email }}</td>
                                 <td></td>
-                                <td><a href="#" class="btn btn-secondary btn-sm mx-auto">Éditer</a></td>
+                                <td>
+                                    <a href="{{ path('app_adherents_show', {id: adherent.id}) }}" class="btn btn-secondary btn-sm mx-auto">Détails</a>
+                                </td>
                             </tr>
                         {% endfor %}
                         {# {% for adherents as adherent %} #}
-                            <tr class="table-striped">
+                            <tr style="background-color: rgb(255,204,204)">
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td><a href="#" class="btn btn-secondary btn-sm mx-auto">Éditer</a></td>
+                                <td>
+                                    <a href="" class="btn btn-secondary btn-sm mx-auto">Détails</a>
+                                </td>
                             </tr>
                         {# {% endfor %} #}
                     </tbody>
                 </table>
+            </div>
+
+            <div class="row justify-content-center">
+                <p><a class="btn btn-secondary" href="{{ path('app_adherents_create') }}">Ajouter un adhérent</a></p>
             </div>
         </div>
     </div>

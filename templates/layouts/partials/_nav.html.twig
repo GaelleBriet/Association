@@ -1,6 +1,13 @@
   <nav class="navbar navbar-expand-md navbar-dark bg-dark ps-5 pe-5" aria-label="Fourth navbar example">
+
     <div class="container-fluid ms-5">
-      <div><img src="{{ asset('build/images/patte.png') }}" alt="" style="width: 40px; height: 40px;"></div>
+
+      <div>
+        <a href="{{ path('app_home') }}">
+          <img src="{{ asset('build/images/patte.png') }}" alt="" style="width: 40px; height: 40px;">
+        </a>
+      </div>
+
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -11,10 +18,10 @@
             <a class="nav-link active" aria-current="page" href="#">Connexion</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="{{ path('app_adherents_create') }}">Créer un Adhérent</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link">Disabled</a>
+            <a class="nav-link" href="{{ path('app_adherents') }}">Liste des Adhérents</a>
           </li>
         </ul>
         {# <form role="search">
