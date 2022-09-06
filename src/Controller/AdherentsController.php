@@ -3,12 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Adherents;
+use App\Form\AdherentType;
 use App\Repository\AdherentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,6 +22,8 @@ class AdherentsController extends AbstractController
         return $this->render('adherents/list.html.twig', compact('adherents'));
     }
 
+
+
     #[Route('/{id<[0-9]+>}', name: 'app_adherents_show', methods: 'GET')]
     public function show(Adherents $adherent): Response
     {
@@ -33,23 +33,13 @@ class AdherentsController extends AbstractController
     }
 
 
-    // #[Route('/{id<[0-9]+>}/edit', name: 'app_adherents_edit', methods: 'GET|POST')]
-    // public function edit(Adherents $adherent): Response
-    // {
-    //     return $this->render('adherents/edit.html.twig', [
-    //         'adherent' => $adherent
-    //     ]);
-    // }
 
-    #[Route('/{id<[0-9]+>}/edit', name: 'app_adherents_edit')]
+    #[Route('/{id<[0-9]+>}/edit', name: 'app_adherents_edit', methods: "GET|PUT")]
     public function edit(Adherents $adherent, Request $request, EntityManagerInterface $em): Response
     {
-        $form = $this->createFormBuilder($adherent)
-            ->add('firstName', TextType::class)
-            ->add('lastName', TextType::class)
-            ->add('tel', TelType::class)
-            ->add('email', EmailType::class)
-            ->getForm();
+        $form = $this->createForm(AdherentType::class, $adherent, [
+            'method' => 'PUT',
+        ]);
 
         $form->handleRequest($request);
 
@@ -65,17 +55,15 @@ class AdherentsController extends AbstractController
         ]);
     }
 
+
+
+
     #[Route('/create', name: 'app_adherents_create', methods: 'GET|POST')]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         $adherent = new Adherents;
 
-        $form = $this->createFormBuilder($adherent)
-            ->add('firstName', TextType::class)
-            ->add('lastName', TextType::class)
-            ->add('tel', TelType::class)
-            ->add('email', EmailType::class)
-            ->getForm();
+        $form = $this->createForm(AdherentType::class, $adherent);
 
         $form->handleRequest($request);
 

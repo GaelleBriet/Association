@@ -9,7 +9,7 @@
 
         <h1 class="text-center">Édition de l'adhérent numéro {{adherents.id}}</h1>
 
-        {{ include('adherents/_form.html.twig') }}
+        {{ include('adherents/_form.html.twig', {submitButtonText: 'Modifier l\'adhérent'}) }}
 
       </div>
     </div>
