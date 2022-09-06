@@ -18,8 +18,8 @@ class AdherentsController extends AbstractController
     #[Route('/list', name: 'app_adherents_list', methods: 'GET')]
     public function list(AdherentsRepository $adherentsRepository): Response
     {
-        $adherents = $adherentsRepository->findAll();
-        return $this->render('adherents/list.html.twig', compact('adherents'));
+        $adherent = $adherentsRepository->findAll();
+        return $this->render('adherents/list.html.twig', compact('adherent'));
     }
 
 
@@ -50,7 +50,7 @@ class AdherentsController extends AbstractController
         }
 
         return $this->render('adherents/edit.html.twig',  [
-            'adherents' => $adherent,
+            'adherent' => $adherent,
             'form' => $form->createView()
         ]);
     }
@@ -77,5 +77,16 @@ class AdherentsController extends AbstractController
         return $this->render('adherents/create.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+
+    #[Route('/{id<[0-9]+>}/delete', name: 'app_adherents_delete', methods: "GET")]
+    public function delete(Adherents $adherent, EntityManagerInterface $em): Response
+    {
+
+        $em->remove($adherent);
+        $em->flush();
+
+        return $this->redirectToRoute('app_adherents');
     }
 }

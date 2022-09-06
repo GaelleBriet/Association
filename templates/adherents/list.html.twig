@@ -4,7 +4,7 @@
     <div class="container my-5">
 
         <div class="row justify-content-center">
-            <h2>{{ pluralize(adherents|length, 'Adhérent', 'Adhérents') }}</h2>
+            <h2>{{ pluralize(adherent|length, 'Adhérent', 'Adhérents') }}</h2>
 
             <div class="table-responsive mt-5" style="overflow: auto; height:600px">
                 <table class="table table-bordered table-fixed table-striped" id="dataTable">
@@ -22,7 +22,7 @@
                     </thead>
 
                     <tbody class="text-center">
-                        {% for adherent in adherents %}
+                        {% for adherent in adherent %}
                             <tr class="table-striped">
                                 <td>{{ adherent.id }}</td>
                                 <td>{{ adherent.firstName }}</td>
@@ -32,6 +32,7 @@
                                 <td></td>
                                 <td>
                                     <a href="{{ path('app_adherents_show', {id: adherent.id}) }}" class="btn btn-secondary btn-sm mx-auto">Détails</a>
+                                    {# <a href="{{ path('app_adherents_delete', {id: adherent.id}) }}" class="btn btn-secondary btn-sm mx-auto">Supprimer</a> #}
                                 </td>
                             </tr>
                         {% endfor %}
@@ -52,9 +53,9 @@
                 </table>
             </div>
 
-            <div class="row justify-content-center">
+            {# <div class="row justify-content-center">
                 <p><a class="btn btn-secondary" href="{{ path('app_adherents_create') }}">Ajouter un adhérent</a></p>
-            </div>
+            </div> #}
         </div>
     </div>
 

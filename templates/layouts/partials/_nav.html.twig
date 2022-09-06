@@ -14,19 +14,32 @@
 
       <div class="collapse navbar-collapse justify-content-end" id="navbarsExample04">
         <ul class="navbar-nav me-5">
+
+      {% if app.user %}
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Connexion</a>
+            <a class="nav-link" href="{{ path('app_adherents') }}">Liste des Adhérents</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ path('app_adherents_create') }}">Créer un Adhérent</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_adherents') }}">Liste des Adhérents</a>
+          {# <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('js-logout-form').submit();">Déconnexion</a> #}
+            <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
           </li>
+
+          {# <form id="js-logout-form" action="{{ path('app_logout') }}" style="display: none;" method="POST">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
+          </form> #}
+          
+      {% else %}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ path('app_login') }}">Connexion</a>
+          </li>
+      {% endif %}
         </ul>
-        {# <form role="search">
-          <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-        </form> #}
       </div>
     </div>
   </nav>
+            
+      
+

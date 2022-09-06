@@ -13,11 +13,13 @@
         {% endblock %}
     </head>
 
-    <body>
+    <body class="d-flex flex-column vh-100">
         {{ include('layouts/partials/_nav.html.twig') }}
 
+        <main>
             {% block body %}
             {% endblock %}
+        </main>
 
         {{ include('layouts/partials/_footer.html.twig') }}
 
