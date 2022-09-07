@@ -29,12 +29,12 @@
       </div>
 
       <div class="row p-5 justify-content-center">
-        <a href="{{ path('app_adherents_edit', {id: adherent.id}) }}" class="btn btn-warning col-8 mb-3">Modifier</a>
+        <a href="{{ path('app_adherents_edit', {id: adherent.id}) }}" class="btn btn-secondary col-5 me-3">Modifier</a>
         {# <form action="{{ path('app_adherents_delete', {id: adherent.id}) }}" method="post">
           <input type="hidden" name="_method" value="DELETE">
           <input type="submit" value="Delete">
         </form> #}
-        <a href="{{ path('app_adherents_delete', {id: adherent.id}) }}" class="btn btn-danger col-8">Supprimer</a>
+        <a href="{{ path('app_adherents_delete', {id: adherent.id}) }}" class="btn btn-warning  col-5">Supprimer</a>
       </div>    
     </article>
   </div>

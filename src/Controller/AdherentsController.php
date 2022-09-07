@@ -36,7 +36,14 @@ class AdherentsController extends AbstractController
         ]);
     }
 
+    #[Route('/{id<[0-9]+>}/delete', name: 'app_adherents_delete', methods: 'GET')]
+    public function delete(Adherents $adherent, EntityManagerInterface $em): Response
+    {
+        $em->remove($adherent);
+        $em->flush();
 
+        return $this->redirectToRoute('app_adherents');
+    }
 
     #[Route('/{id<[0-9]+>}/edit', name: 'app_adherents_edit', methods: "GET|PUT")]
     #[Security("is_granted('ROLE_ADMIN')")]
@@ -61,11 +68,7 @@ class AdherentsController extends AbstractController
     }
 
 
-    #[Route('/{id<[0-9]+}/delete', name: 'app_adherents_delete', methods: 'GET')]
-    public function delete(Adherents $adherent, EntityManagerInterface $em): Response
-    {
-        dd('try');
-    }
+
 
 
 
@@ -91,16 +94,4 @@ class AdherentsController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-
-
-    // #[Route('/{id<[0-9]+>}/delete', name: 'app_adherents_delete', methods: "GET")]
-    // #[Security("is_granted('ROLE_ADMIN')")]
-    // public function delete(Adherents $user, EntityManagerInterface $em): Response
-    // {
-
-    //     $em->remove($user);
-    //     $em->flush();
-
-    //     return $this->redirectToRoute('app_home');
-    // }
 }

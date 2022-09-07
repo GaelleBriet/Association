@@ -30,7 +30,7 @@ class Adherents
     #[ORM\Column(length: 100)]
     private ?string $email = null;
 
-    #[ORM\OneToMany(mappedBy: 'id_adherent', targetEntity: Adhesions::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'adherent', targetEntity: Adhesions::class, orphanRemoval: true)]
     private Collection $adhesions;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ['default' => 'CURRENT_TIMESTAMP'])]
