@@ -10,12 +10,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 #[Route('/adherents')]
 class AdherentsController extends AbstractController
 {
     #[Route('', name: 'app_adherents', methods: 'GET')]
     #[Route('/list', name: 'app_adherents_list', methods: 'GET')]
+    #[Security("is_granted('ROLE_ADMIN')")]
     public function list(AdherentsRepository $adherentsRepository): Response
     {
         $adherent = $adherentsRepository->findAll();
@@ -25,6 +28,7 @@ class AdherentsController extends AbstractController
 
 
     #[Route('/{id<[0-9]+>}', name: 'app_adherents_show', methods: 'GET')]
+    #[Security("is_granted('ROLE_ADMIN')")]
     public function show(Adherents $adherent): Response
     {
         return $this->render('adherents/show.html.twig', [
@@ -35,6 +39,7 @@ class AdherentsController extends AbstractController
 
 
     #[Route('/{id<[0-9]+>}/edit', name: 'app_adherents_edit', methods: "GET|PUT")]
+    #[Security("is_granted('ROLE_ADMIN')")]
     public function edit(Adherents $adherent, Request $request, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(AdherentType::class, $adherent, [
@@ -56,9 +61,17 @@ class AdherentsController extends AbstractController
     }
 
 
+    #[Route('/{id<[0-9]+}/delete', name: 'app_adherents_delete', methods: 'GET')]
+    public function delete(Adherents $adherent, EntityManagerInterface $em): Response
+    {
+        dd('try');
+    }
+
+
 
 
     #[Route('/create', name: 'app_adherents_create', methods: 'GET|POST')]
+    #[Security("is_granted('ROLE_ADMIN')")]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         $adherent = new Adherents;
@@ -80,13 +93,14 @@ class AdherentsController extends AbstractController
     }
 
 
-    #[Route('/{id<[0-9]+>}/delete', name: 'app_adherents_delete', methods: "GET")]
-    public function delete(Adherents $adherent, EntityManagerInterface $em): Response
-    {
+    // #[Route('/{id<[0-9]+>}/delete', name: 'app_adherents_delete', methods: "GET")]
+    // #[Security("is_granted('ROLE_ADMIN')")]
+    // public function delete(Adherents $user, EntityManagerInterface $em): Response
+    // {
 
-        $em->remove($adherent);
-        $em->flush();
+    //     $em->remove($user);
+    //     $em->flush();
 
-        return $this->redirectToRoute('app_adherents');
-    }
+    //     return $this->redirectToRoute('app_home');
+    // }
 }
