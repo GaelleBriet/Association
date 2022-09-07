@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Adherents;
+use App\Entity\Adhesions;
 use App\Form\AdherentType;
+use App\Form\AdhesionType;
 use App\Repository\AdherentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 #[Route('/adherents')]
@@ -32,7 +35,8 @@ class AdherentsController extends AbstractController
     public function show(Adherents $adherent): Response
     {
         return $this->render('adherents/show.html.twig', [
-            'adherent' => $adherent
+            'adherent' => $adherent,
+
         ]);
     }
 
@@ -45,10 +49,14 @@ class AdherentsController extends AbstractController
         return $this->redirectToRoute('app_adherents');
     }
 
+
     #[Route('/{id<[0-9]+>}/edit', name: 'app_adherents_edit', methods: "GET|PUT")]
     #[Security("is_granted('ROLE_ADMIN')")]
     public function edit(Adherents $adherent, Request $request, EntityManagerInterface $em): Response
     {
+        // $adherent = new Adherents();
+        // $adhesion1 = new Adhesions();
+        // $adherent->getAdhesions()->add($adhesion1);
         $form = $this->createForm(AdherentType::class, $adherent, [
             'method' => 'PUT',
         ]);
@@ -66,11 +74,6 @@ class AdherentsController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-
-
-
-
-
 
 
     #[Route('/create', name: 'app_adherents_create', methods: 'GET|POST')]

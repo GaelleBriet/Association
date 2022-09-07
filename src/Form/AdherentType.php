@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Adherents;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,6 +27,13 @@ class AdherentType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'label' => 'E-mail'
+            ])
+            ->add('adhesions', CollectionType::class, [
+                'entry_type' => AdhesionType::class,
+                'entry_options' => ['label' => true],
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => true
             ])
             // ->add('createdAt')
         ;
