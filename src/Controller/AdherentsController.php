@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Entity\Adherents;
 use App\Entity\Adhesions;
 use App\Form\AdherentType;
 use App\Form\AdhesionType;
 use App\Repository\AdherentsRepository;
+use App\Repository\AdhesionsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 #[Route('/adherents')]
 class AdherentsController extends AbstractController
@@ -22,21 +27,25 @@ class AdherentsController extends AbstractController
     #[Route('', name: 'app_adherents', methods: 'GET')]
     #[Route('/list', name: 'app_adherents_list', methods: 'GET')]
     #[Security("is_granted('ROLE_ADMIN')")]
-    public function list(AdherentsRepository $adherentsRepository): Response
+    public function list(AdherentsRepository $adherentsRepository, AdhesionsRepository $adhesionsRepository): Response
     {
+        $adhesion = $adhesionsRepository->findAll();
         $adherent = $adherentsRepository->findAll();
-        return $this->render('adherents/list.html.twig', compact('adherent'));
+        return $this->render('adherents/list.html.twig', [
+            'adherent' => $adherent,
+            'adhesion' => $adhesion,
+
+        ]);
     }
-
-
 
     #[Route('/{id<[0-9]+>}', name: 'app_adherents_show', methods: 'GET')]
     #[Security("is_granted('ROLE_ADMIN')")]
     public function show(Adherents $adherent): Response
     {
+        $adhesions = $adherent->getAdhesions();
         return $this->render('adherents/show.html.twig', [
             'adherent' => $adherent,
-
+            'adhesion' => $adhesions,
         ]);
     }
 
@@ -54,9 +63,6 @@ class AdherentsController extends AbstractController
     #[Security("is_granted('ROLE_ADMIN')")]
     public function edit(Adherents $adherent, Request $request, EntityManagerInterface $em): Response
     {
-        // $adherent = new Adherents();
-        // $adhesion1 = new Adhesions();
-        // $adherent->getAdhesions()->add($adhesion1);
         $form = $this->createForm(AdherentType::class, $adherent, [
             'method' => 'PUT',
         ]);
@@ -94,6 +100,7 @@ class AdherentsController extends AbstractController
         }
 
         return $this->render('adherents/create.html.twig', [
+            'adherent' => $adherent,
             'form' => $form->createView()
         ]);
     }

@@ -3,41 +3,50 @@
 {% block title "Adhérent : " ~ adherent.firstName ~ " " ~ adherent.lastName %}
 
 {% block body %}
+  {% for adhesion in adhesion %}
 
-<div class="row">
-  <div class="col-md-6 mx-auto">
-    <article class="bg-white rounded shadow pin my-5">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <article class="bg-white rounded shadow pin my-5">
 
-      <div class="row p-3">
-        <h1 class="h2 py-3 text-center">{{adherent.firstName ~" "~ adherent.lastName}}</h1>
-        <p class="text-muted text-center pb-5">
-            Adhérent créé le 
-            <time>{{adherent.createdAt|date('d-m-Y')}}</time>
-        </p>
+          <div class="row p-3">
+            <h1 class="h2 py-3 text-center">{{adherent.firstName ~" "~ adherent.lastName}}</h1>
+            <p class="text-muted text-center pb-5">
+                Adhérent créé le 
+                <time>{{adherent.createdAt|date('d-m-Y')}}</time>
+            </p>
 
-        <p class="col-4 ms-3 fw-semibold">Téléphone : </p>
-        <p class="col-6">{{adherent.tel}}</p>
+            <p class="col-4 ms-3 fw-semibold">Téléphone : </p>
+            <p class="col-6">{{ adherent.tel|u.wordwrap(2, " ", 1) }}</p>
 
-        <p class="col-4 ms-3 fw-semibold">E-mail : </p>
-        <p class="col-6">{{adherent.email}}</p>
+            <p class="col-4 ms-3 fw-semibold">E-mail : </p>
+            <p class="col-6">{{adherent.email}}</p>
 
-        <p class="col-4 ms-3 fw-semibold">Date d'adhésion: </p>
-        <p class="col-6"></p>
+            <p class="col-4 ms-3 fw-semibold">Date d'adhésion: </p>
+            <p class="col-6">{{ adhesion.startingDate|date('d-m-Y') }}</p>
 
-        <p class="col-4 ms-3 fw-semibold">Date de fin d'adhésion : </p>
-        <p class="col-6"></p>
-      </div>
+            <p class="col-4 ms-3 fw-semibold">Date de fin d'adhésion : </p>
+            <p class="col-6">{{ adhesion.endingDate|date('d-m-Y') }}</p>
+          </div>
 
-      <div class="row p-5 justify-content-center">
-        <a href="{{ path('app_adherents_edit', {id: adherent.id}) }}" class="btn btn-secondary col-5 me-3">Modifier</a>
-        {# <form action="{{ path('app_adherents_delete', {id: adherent.id}) }}" method="post">
-          <input type="hidden" name="_method" value="DELETE">
-          <input type="submit" value="Delete">
-        </form> #}
-        <a href="{{ path('app_adherents_delete', {id: adherent.id}) }}" class="btn btn-warning  col-5">Supprimer</a>
-      </div>    
-    </article>
-  </div>
-</div>
+          <div class="p-5 justify-content-center">
+            <a href="{{ path('app_adherents_edit', {id: adherent.id}) }}" class="mb-3 btn btn-primary col-12">Modifier</a>
+            {# <form action="{{ path('app_adherents_delete', {id: adherent.id}) }}" method="post">
+              <input type="hidden" name="_method" value="DELETE">
+              <input type="submit" value="Delete">
+            </form> #}
+            <a href="{{ path('app_adherents_delete', {id: adherent.id}) }}" class="mb-3 btn btn-primary  col-12">Supprimer</a>
+          </div>
 
+        </article>
+
+        <div class="row justify-content-center ">
+          <a href="{{ path('app_adherents_list') }}" class="mt-5 btn btn-secondary mx-auto col-6">Retour à la liste des adhérents</a>
+        </div>
+      </div>  
+    </div>
+  {% endfor %}          
 {% endblock %}
+
+
+    

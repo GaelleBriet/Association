@@ -17,7 +17,7 @@ class AdhesionType extends AbstractType
                 'label' => 'Date de début d\'adhésion'
             ])
             ->add('ending_date', DateType::class, [
-                'label' => 'Date de find d\'adhésion'
+                'label' => 'Date de fin d\'adhésion'
             ])
             // ->add('adherent');
         ;

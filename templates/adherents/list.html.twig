@@ -10,7 +10,7 @@
                 <table class="table table-bordered table-fixed table-striped" id="dataTable">
 
                     <thead class="text-light text-center" style="position: sticky; top: 0; background-color: var(--bs-gray-800);">
-                        <tr class="rounded-top">
+                        <tr>
                             <th style="position: sticky; top:0;">Identifiant</th>
                             <th style="position: sticky; top:0;">Prénom</th>
                             <th style="position: sticky; top:0;">Nom</th>
@@ -23,18 +23,22 @@
 
                     <tbody class="text-center">
                         {% for adherent in adherent %}
+                        {% for adhesion in adhesion %}
+                            
                             <tr class="table-striped">
                                 <td>{{ adherent.id }}</td>
                                 <td>{{ adherent.firstName }}</td>
                                 <td>{{ adherent.lastName }}</td>
-                                <td>{{ adherent.tel }}</td>
+                                <td>{{ adherent.tel|u.wordwrap(2, " ", 1) }}</td>
                                 <td>{{ adherent.email }}</td>
-                                <td></td>
+                                {# <td></td> #}
+                                <td>{{ adhesion.endingDate|date('d-m-Y') }}</td>
                                 <td>
                                     <a href="{{ path('app_adherents_show', {id: adherent.id}) }}" class="btn btn-secondary btn-sm mx-auto">Détails</a>
                                     {# <a href="{{ path('app_adherents_delete', {id: adherent.id}) }}" class="btn btn-secondary btn-sm mx-auto">Supprimer</a> #}
                                 </td>
                             </tr>
+                        {% endfor %}
                         {% endfor %}
                         {# {% for adherents as adherent %} #}
                             {# <tr style="background-color: rgb(255,204,204)">

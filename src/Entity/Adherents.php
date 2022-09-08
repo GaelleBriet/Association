@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\AdherentsRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,15 +20,18 @@ class Adherents
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank]
     private ?string $first_name = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank]
     private ?string $last_name = null;
 
     #[ORM\Column(length: 10)]
     private ?string $tel = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank]
     private ?string $email = null;
 
     #[ORM\OneToMany(mappedBy: 'adherent', targetEntity: Adhesions::class, orphanRemoval: true)]

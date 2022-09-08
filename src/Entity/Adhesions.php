@@ -64,4 +64,9 @@ class Adhesions
 
         return $this;
     }
+
+    public function getAdhesionsFromAdherent()
+    {
+        //return $this->adherent->getAdhesions();
+    }
 }

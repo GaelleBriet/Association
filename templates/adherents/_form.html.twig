@@ -1,19 +1,17 @@
-{{ form_start(form) }}
-  {# {{ form_widget(form) }} #}
+{# {{ form_start(form) }}
   {{ form_row(form.first_name) }}
   {{ form_row(form.last_name) }}
   {{ form_row(form.tel) }}
   {{ form_row(form.email) }}
-
+  {{ form_row(form.starting_date) }}
 
     {% for adhesion in form.adhesions %}
       {{ form_row(adhesion.starting_date) }}
       {{ form_row(adhesion.ending_date) }}
     {% endfor %}  
 
-
-  <div class="d-grip-gap-2">
-    <input type="submit" value="{{ submitButtonText|default('Ajouter un adhérent') }}" class="btn btn-primary" formnovalidate="formnovalidate">
+  <div class="d-inline">
+    <input type="submit" value="{{ submitButtonText|default('Ajouter un adhérent') }}" class="mb-3 btn btn-primary me-3 col-12" formnovalidate="formnovalidate">
   </div>
 
-{{ form_end(form) }}
+{{ form_end(form) }} #}

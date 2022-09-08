@@ -9,11 +9,22 @@
 
         <h1 class="text-center">Création d'un adhérent</h1>
 
-        {{ include('adherents/_form.html.twig') }}
-        {# {{ form_start(form) }}
-          {{ form_widget(form) }}
-          <input type="submit" value="Créer un adhérent" class="btn btn-primary" formnovalidate="formnovalidate">
-        {{ form_end(form) }} #}
+
+        {{ form_start(form) }}
+
+          {{ form_row(form.first_name) }}
+          {{ form_row(form.last_name) }}
+          {{ form_row(form.tel) }}
+          {{ form_row(form.email) }}
+
+
+          <div class="d-inline">
+            <input type="submit" value="{{ submitButtonText|default('Ajouter un adhérent') }}" class="mb-3 btn btn-primary me-3 col-12" formnovalidate="formnovalidate">
+          </div>
+
+        {{ form_end(form) }}
+
+
 
       </div>
     </div>

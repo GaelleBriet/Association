@@ -34,10 +34,9 @@ class AdherentType extends AbstractType
                 'by_reference' => false,
                 'allow_add' => true,
                 'allow_delete' => true
-            ])
-            // ->add('createdAt')
-        ;
+            ]);
     }
+
 
     public function configureOptions(OptionsResolver $resolver): void
     {
