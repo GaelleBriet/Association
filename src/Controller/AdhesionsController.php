@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Adherents;
 use App\Entity\Adhesions;
-use App\Form\AdhesionType;
-use App\Repository\AdhesionsRepository;
+use App\Form\AdhesionAddType;
+use App\Repository\AdherentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,25 +15,36 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdhesionsController extends AbstractController
 {
-    #[Route('/adhesions', name: 'app_adhesions')]
-    public function index(AdhesionsRepository $adhesionsRepository): Response
+    #[Route('/adhesion/{id<[0-9]+>}/delete', name: 'app_adhesion_delete', methods: 'GET')]
+    public function delete(Adhesions $adhesion, EntityManagerInterface $em): Response
     {
+        $em->remove($adhesion);
+        $em->flush();
 
-        $adhesion = $adhesionsRepository->findAll();
-        return $this->render('adhesions/index.html.twig', [
-            'adhesion' => $adhesion,
-        ]);
+        return $this->redirectToRoute('app_adherents');
     }
 
-    // #[Route('/adhesions/{id}', name: 'app_adhesions_show')]
-    // public function show(Adherents $adherent): Response
-    // {
-    //     $adherent->getAdhesions();
-    //     // $adhesion->getAdhesionsFromAdherent($adherent);
-    //     return $this->render('adhesions/show.html.twig', [
-    //         'adherent' => $adherent,
-    //     ]);
-    // }
 
+    #[Route('/{id<[0-9]+>}/adhesion/create', name: 'app_adhesion_create', methods: "GET|POST")]
+    #[Security("is_granted('ROLE_ADMIN')")]
+    public function create(Request $request, EntityManagerInterface $em, Adherents $adherents): Response
+    {
+        $adhesion = new Adhesions();
+        $form = $this->createForm(AdhesionAddType::class, $adhesion);
 
+        $form->handleRequest($request);
+
+        // dd($adherents);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($adhesion);
+            $em->flush();
+
+            return $this->redirectToRoute('app_adherents');
+        }
+
+        return $this->render('adhesions/index.html.twig', [
+            'adhesion' => $adhesion,
+            'form' => $form->createView()
+        ]);
+    }
 }

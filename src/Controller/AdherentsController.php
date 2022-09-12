@@ -2,13 +2,10 @@
 
 namespace App\Controller;
 
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Entity\Adherents;
 use App\Entity\Adhesions;
-use App\Form\AdherentType;
-use App\Form\AdhesionType;
+use App\Form\AdherentsCreateType;
+use App\Form\AdhesionAddType;
 use App\Repository\AdherentsRepository;
 use App\Repository\AdhesionsRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,10 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 #[Route('/adherents')]
 class AdherentsController extends AbstractController
@@ -29,7 +23,12 @@ class AdherentsController extends AbstractController
     #[Security("is_granted('ROLE_ADMIN')")]
     public function list(AdherentsRepository $adherentsRepository, AdhesionsRepository $adhesionsRepository): Response
     {
-        $adhesion = $adhesionsRepository->findAll();
+        $adhesion = $adhesionsRepository
+            ->findBy(
+                array(),
+                array('ending_date' => 'DESC'),
+                $limit = 1
+            );
         $adherent = $adherentsRepository->findAll();
         return $this->render('adherents/list.html.twig', [
             'adherent' => $adherent,
@@ -63,7 +62,10 @@ class AdherentsController extends AbstractController
     #[Security("is_granted('ROLE_ADMIN')")]
     public function edit(Adherents $adherent, Request $request, EntityManagerInterface $em): Response
     {
-        $form = $this->createForm(AdherentType::class, $adherent, [
+        // $form = $this->createForm(AdherentType::class, $adherent, [
+        //     'method' => 'PUT',
+        // ]);
+        $form = $this->createForm(AdherentsCreateType::class, $adherent, [
             'method' => 'PUT',
         ]);
 
@@ -88,7 +90,7 @@ class AdherentsController extends AbstractController
     {
         $adherent = new Adherents;
 
-        $form = $this->createForm(AdherentType::class, $adherent);
+        $form = $this->createForm(AdherentsCreateType::class, $adherent);
 
         $form->handleRequest($request);
 
@@ -104,4 +106,35 @@ class AdherentsController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    // #[Route('/{id<[0-9]+>}/adhesion', name: 'app_adhesion_create', methods: "GET|POST")]
+    // #[Security("is_granted('ROLE_ADMIN')")]
+    // public function addAdhesion(Request $request, EntityManagerInterface $em): Response
+    // {
+    //     $adhesion = new Adhesions();
+
+    //     $form = $this->createForm(AdhesionAddType::class, $adhesion);
+
+    //     $form->handleRequest($request);
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $em->persist($adhesion);
+    //         $em->flush();
+
+    //         return $this->redirectToRoute('app_adherents');
+    //     }
+
+    //     return $this->render('adhesions/index.html.twig', [
+    //         'adhesion' => $adhesion,
+    //         'form' => $form->createView()
+    //     ]);
+    // }
+
+    // #[Route('/{id<[0-9]+>}/deleteAdhesion', name: 'app_adherents_deleteAdhesion', methods: 'GET')]
+    // public function deleteAdhesion(Adhesions $adhesion, EntityManagerInterface $em): Response
+    // {
+    //     $em->remove($adhesion);
+    //     $em->flush();
+
+    //     return $this->redirectToRoute('app_adherents');
+    // }
 }

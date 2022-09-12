@@ -30,7 +30,7 @@ class AdherentType extends AbstractType
             ])
             ->add('adhesions', CollectionType::class, [
                 'entry_type' => AdhesionType::class,
-                'entry_options' => ['label' => true],
+                'entry_options' => ['label' => false],
                 'by_reference' => false,
                 'allow_add' => true,
                 'allow_delete' => true

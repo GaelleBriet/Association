@@ -3,7 +3,7 @@
 {% block title "Adhérent : " ~ adherent.firstName ~ " " ~ adherent.lastName %}
 
 {% block body %}
-  {% for adhesion in adhesion %}
+  {# {% for adhesion in adhesion %} #}
 
     <div class="row">
       <div class="col-md-6 mx-auto">
@@ -22,30 +22,39 @@
             <p class="col-4 ms-3 fw-semibold">E-mail : </p>
             <p class="col-6">{{adherent.email}}</p>
 
-            <p class="col-4 ms-3 fw-semibold">Date d'adhésion: </p>
-            <p class="col-6">{{ adhesion.startingDate|date('d-m-Y') }}</p>
+          </div>
 
-            <p class="col-4 ms-3 fw-semibold">Date de fin d'adhésion : </p>
-            <p class="col-6">{{ adhesion.endingDate|date('d-m-Y') }}</p>
+          <div class="p-3">
+            <p class="ps-3 fw-semibold"> Historique des adhésions :</p>
+            {% for adhesion in adhesion %}
+              {% if adhesion is not empty %}
+                <ul class="list-group">
+                  <li class="list-group-item mb-3">
+                    <p class="col-12 ms-3 fw-semibold">Date de début d'adhésion: <span class="fw-normal ms-3">{{ adhesion.startingDate|date('d-m-Y') }}</span></p>
+
+                    <p class="ms-3 fw-semibold">Date de fin d'adhésion : <span class="fw-normal">{{ adhesion.endingDate|date('d-m-Y') }}</span></p>
+
+                    <a href="{{ path('app_adhesion_delete', {id: adhesion.id}) }}" class="btn btn-light">Supprimer cette adhésion</a>
+                  </li>
+                </ul>
+              {% endif %}
+            {% endfor %}
           </div>
 
           <div class="p-5 justify-content-center">
-            <a href="{{ path('app_adherents_edit', {id: adherent.id}) }}" class="mb-3 btn btn-primary col-12">Modifier</a>
-            {# <form action="{{ path('app_adherents_delete', {id: adherent.id}) }}" method="post">
-              <input type="hidden" name="_method" value="DELETE">
-              <input type="submit" value="Delete">
-            </form> #}
-            <a href="{{ path('app_adherents_delete', {id: adherent.id}) }}" class="mb-3 btn btn-primary  col-12">Supprimer</a>
+            <a href="{{ path('app_adhesion_create', {id: adherent.id}) }}" class="mb-3 btn btn-light col-12">Ajouter une adhésion</a>
+            <a href="{{ path('app_adherents_edit', {id: adherent.id}) }}" class="mb-3 btn btn-light col-12">Modifier l'adhérent</a>
+            <a href="{{ path('app_adherents_delete', {id: adherent.id}) }}" class="mb-3 btn btn-secondary  col-12">Supprimer l'adhérent</a>
           </div>
 
         </article>
 
         <div class="row justify-content-center ">
-          <a href="{{ path('app_adherents_list') }}" class="mt-5 btn btn-secondary mx-auto col-6">Retour à la liste des adhérents</a>
+          <a href="{{ path('app_adherents_list') }}" class="my-3 btn btn-secondary mx-auto col-6">Retour à la liste des adhérents</a>
         </div>
       </div>  
     </div>
-  {% endfor %}          
+  {# {% endfor %}           #}
 {% endblock %}
 
 

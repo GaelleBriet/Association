@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
 
 #[ORM\Entity(repositoryClass: AdherentsRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -35,6 +36,7 @@ class Adherents
     private ?string $email = null;
 
     #[ORM\OneToMany(mappedBy: 'adherent', targetEntity: Adhesions::class, orphanRemoval: true)]
+    #[OrderBy(["ending_date" => "DESC"])]
     private Collection $adhesions;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ['default' => 'CURRENT_TIMESTAMP'])]
@@ -145,5 +147,12 @@ class Adherents
     public function updateTimestamps()
     {
         $this->setCreatedAt(new \DateTimeImmutable);
+    }
+
+
+
+    public function __toString(): string
+    {
+        return $this->getId() . ' '  . $this->getFirstName() . ' ' . $this->getLastName();
     }
 }

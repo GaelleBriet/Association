@@ -9,21 +9,24 @@
         <article class="bg-white rounded shadow pin my-5">  
           <div class="col-md-12 p-5">
 
-            <h1 class="text-center">Édition de l'adhérent numéro {{adherent.id}}</h1>
-
+            <h1 class="text-center">Édition de l'adhérent {{adherent.firstName}} {{adherent.lastName}}</h1>
 
             {{ form_start(form) }}
-              {# {{ form_widget(form) }} #}
+
               {{ form_row(form.first_name) }}
               {{ form_row(form.last_name) }}
               {{ form_row(form.tel) }}
               {{ form_row(form.email) }}
-              {# {{ form_row(form.starting_date) }} #}
 
+              {# {% if adherent.adhesions is not empty %}
                 {% for adhesion in form.adhesions %}
+
                   {{ form_row(adhesion.starting_date) }}
                   {{ form_row(adhesion.ending_date) }}
+
                 {% endfor %}  
+              {% endif %} #}
+
 
               <div class="d-inline">
                 <input type="submit" value="Modifier l'adhérent" class="mb-3 btn btn-primary me-3 col-12" formnovalidate="formnovalidate">

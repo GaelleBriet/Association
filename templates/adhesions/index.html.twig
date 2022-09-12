@@ -1,12 +1,33 @@
 {% extends 'layouts/base.html.twig' %}
-{% block title 'test' %}
+
+{% block title 'Ajouter une adhésion' %}
+
 {% block body %}
-    {% for adhesion in adhesion %}
-        <p>Id Adhésion : {{adhesion.id}}</p>
-        <p>Prénom : {{adhesion.adherent.firstName}}</p>
-        <p>Nom : {{adhesion.adherent.lastName}}</p>
-        <p>Id Adhérent : {{adhesion.adherent.id}}</p>
-        <p><a href="{{ path('app_adhesions_show', {id: adhesion.id}) }}" class="btn btn-secondary btn-sm mx-auto">Détails adhésion</a></p>
-        <p><a href="{{ path('app_adhesions_show', {id: adhesion.adherent.id}) }}" class="btn btn-secondary btn-sm mx-auto">Détails adhérent</a></p>
-    {% endfor %}
+
+  <div class="container my-5 h-100">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+
+        <h1 class="text-center mb-5">Ajout d'une adhésion</h1>
+
+        {{ form_start(form) }}
+
+            {{ form_row(form.starting_date) }}
+            {{ form_row(form.ending_date) }}
+              {{ form_row(form.adherent)}}
+              <div class="invisible">
+              {# {{ form_row(form.adherent)}} #}
+              </div>
+
+          <div class="d-inline">
+            <input type="submit" value="Ajouter une adhésion" class="mb-3 btn btn-primary me-3 col-12" formnovalidate="formnovalidate">
+          </div>
+          
+        {{ form_end(form) }}
+          
+
+      </div>
+    </div>
+  </div>
+
 {% endblock %}

@@ -4,6 +4,9 @@ namespace App\Form;
 
 use App\Entity\Adherents;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,12 +15,18 @@ class AdherentsCreateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('first_name')
-            ->add('last_name')
-            ->add('tel')
-            ->add('email')
-            ->add('createdAt')
-        ;
+            ->add('first_name', TextType::class, [
+                'label' => 'Prénom'
+            ])
+            ->add('last_name', TextType::class, [
+                'label' => 'Nom'
+            ])
+            ->add('tel', TelType::class, [
+                'label' => 'Téléphone'
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'E-mail'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
