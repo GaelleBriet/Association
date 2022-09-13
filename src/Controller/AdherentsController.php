@@ -23,17 +23,9 @@ class AdherentsController extends AbstractController
     #[Security("is_granted('ROLE_ADMIN')")]
     public function list(AdherentsRepository $adherentsRepository, AdhesionsRepository $adhesionsRepository): Response
     {
-        $adhesion = $adhesionsRepository
-            ->findBy(
-                array(),
-                array('ending_date' => 'DESC'),
-                $limit = 1
-            );
-        $adherent = $adherentsRepository->findAll();
+        $adherent = $adherentsRepository->findAllWithLastAdhesion();
         return $this->render('adherents/list.html.twig', [
-            'adherent' => $adherent,
-            'adhesion' => $adhesion,
-
+            'adherent' => $adherent
         ]);
     }
 
