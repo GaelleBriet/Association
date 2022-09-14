@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Adherents;
 use App\Entity\Adhesions;
 use App\Form\AdherentType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -17,9 +18,12 @@ class AdhesionAddType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('starting_date', DateType::class)
-            ->add('ending_date', DateType::class)
-            ->add('adherent', EntityType::class, array('class' => 'App\Entity\Adherents', 'multiple' => false, 'by_reference' => false));
+            ->add('starting_date', DateType::class, [
+                'label' => 'Date de début d\'adhésion'
+            ])
+            ->add('ending_date', DateType::class, [
+                'label' => 'Date de fin d\'adhésion'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

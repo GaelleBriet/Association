@@ -54,9 +54,7 @@ class AdherentsController extends AbstractController
     #[Security("is_granted('ROLE_ADMIN')")]
     public function edit(Adherents $adherent, Request $request, EntityManagerInterface $em): Response
     {
-        // $form = $this->createForm(AdherentType::class, $adherent, [
-        //     'method' => 'PUT',
-        // ]);
+
         $form = $this->createForm(AdherentsCreateType::class, $adherent, [
             'method' => 'PUT',
         ]);

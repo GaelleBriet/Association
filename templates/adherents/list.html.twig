@@ -30,7 +30,7 @@
                                 <td>{{ adherent.last_name }}</td>
                                 <td>{{ adherent.tel|u.wordwrap(2, " ", 1) }}</td>
                                 <td>{{ adherent.email }}</td>
-                                <td>{{ adherent.ending_date }}</td>   
+                                <td>{{ adherent.derniere_adhesion }}</td>   
                                 <td>
                                     <a href="{{ path('app_adherents_show', {id: adherent.id}) }}" class="btn btn-secondary btn-sm mx-auto">Détails</a>
                                 </td>

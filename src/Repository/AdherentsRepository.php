@@ -26,13 +26,14 @@ class AdherentsRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-        SELECT adherents.id, adherents.first_name, adherents.last_name, adherents.tel, adherents.email, adhesions.ending_date 
-        FROM adherents
-        LEFT JOIN adhesions
-        ON adherents.id = adhesions.adherent_id
-        WHERE (starting_date < now() 
-        AND ending_date > now())
-        OR ending_date IS NULL
+        SELECT adherents.id, adherents.first_name, adherents.last_name, adherents.tel, adherents.email, CAST(MAX(adhesions.ending_date) AS CHAR),
+        CASE 
+        WHEN MAX(adhesions.ending_date)>now() THEN CAST(MAX(adhesions.ending_date) AS CHAR)
+        ELSE ""
+        end derniere_adhesion
+        from adherents left join adhesions 
+        on adherents.id = adhesions.adherent_id 
+        group by adherents.id
         ;
         ';
         $stmt = $conn->prepare($sql);
@@ -43,7 +44,7 @@ class AdherentsRepository extends ServiceEntityRepository
         // returns an array of arrays (i.e. a raw data set)
         return $resultSet->fetchAllAssociative();
     }
-    
+
     public function add(Adherents $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

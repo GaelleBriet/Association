@@ -30,12 +30,14 @@ class AdhesionsController extends AbstractController
     public function create(Request $request, EntityManagerInterface $em, Adherents $adherents): Response
     {
         $adhesion = new Adhesions();
+        $adhesion->setAdherent($adherents);
+
         $form = $this->createForm(AdhesionAddType::class, $adhesion);
 
         $form->handleRequest($request);
 
-        // dd($adherents);
         if ($form->isSubmitted() && $form->isValid()) {
+            // $adherents->getId();
             $em->persist($adhesion);
             $em->flush();
 
