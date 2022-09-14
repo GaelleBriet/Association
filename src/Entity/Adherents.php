@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\AdherentsRepository;
+use App\Repository\AdhesionsRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -106,6 +107,13 @@ class Adherents
     public function getAdhesions(): Collection
     {
         return $this->adhesions;
+    }
+
+    public function getLastAdhesion()
+    {
+        $last = $this->getAdhesions()->last();
+
+        return $last;
     }
 
     public function addAdhesion(Adhesions $adhesion): self

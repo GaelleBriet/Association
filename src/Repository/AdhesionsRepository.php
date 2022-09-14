@@ -39,28 +39,26 @@ class AdhesionsRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Adhesions[] Returns an array of Adhesions objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    // /**
+    //  * @return Adhesions[] Returns an array of Adhesions objects
+    //  */
+    // public function findByDateOrderedByNewest(): array
+    // {
+    //     return $this->createQueryBuilder('a')
+    //         ->andWhere('a.ending_date IS NOT NULL')
+    //         // ->setParameter('val', $value)
+    //         ->orderBy('a.ending_date', 'DESC')
+    //         ->setMaxResults(10)
+    //         ->getQuery()
+    //         ->getResult();
+    // }
 
-//    public function findOneBySomeField($value): ?Adhesions
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findOneByDate(): ?Adhesions
+    {
+        return $this->createQueryBuilder('adhesions')
+            ->andWhere('adhesions.ending_date > :date')
+            ->setParameter('date', new \DateTime())
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
