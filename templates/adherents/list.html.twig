@@ -23,6 +23,10 @@
 
                     <tbody class="text-center">
                         {% for adherent in adherent %}
+
+                        {# {% if adherent.derniere_adhesion is empty %}
+                        <p>OOooO</p>
+                        {% endif %} #}
                                     
                             <tr class="table-striped">
                                 <td>{{ adherent.id }}</td>
@@ -30,7 +34,12 @@
                                 <td>{{ adherent.last_name }}</td>
                                 <td>{{ adherent.tel|u.wordwrap(2, " ", 1) }}</td>
                                 <td>{{ adherent.email }}</td>
-                                <td>{{ adherent.derniere_adhesion }}</td>   
+                                {% if adherent.derniere_adhesion is empty %}
+                                <td></td>
+                                {% else %}
+                                <td>{{ adherent.derniere_adhesion|format_datetime('long', 'none', locale='fr') }}</td>
+                                {% endif %}
+                                    
                                 <td>
                                     <a href="{{ path('app_adherents_show', {id: adherent.id}) }}" class="btn btn-secondary btn-sm mx-auto">Détails</a>
                                 </td>
@@ -38,19 +47,6 @@
 
                         {% endfor %}
 
-                        {# {% for adherents as adherent %} #}
-                            {# <tr style="background-color: rgb(255,204,204)">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <a href="" class="btn btn-secondary btn-sm mx-auto">Détails</a>
-                                </td>
-                            </tr> #}
-                        {# {% endfor %} #}
                     </tbody>
                 </table>
             </div>

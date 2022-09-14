@@ -13,7 +13,7 @@
             <h1 class="h2 py-3 text-center">{{adherent.firstName ~" "~ adherent.lastName}}</h1>
             <p class="text-muted text-center pb-5">
                 Adhérent créé le 
-                <time>{{adherent.createdAt|date('d-m-Y')}}</time>
+                <time>{{adherent.createdAt|format_datetime('full', 'none', locale='fr')}}</time>
             </p>
 
             <p class="col-4 ms-3 fw-semibold">Téléphone : </p>
@@ -30,9 +30,9 @@
               {% if adhesion is not empty %}
                 <ul class="list-group">
                   <li class="list-group-item mb-3">
-                    <p class="col-12 ms-3 fw-semibold">Date de début d'adhésion: <span class="fw-normal ms-3">{{ adhesion.startingDate|date('d-m-Y') }}</span></p>
+                    <p class="col-12 ms-3 fw-semibold">Date de début d'adhésion: <span class="fw-normal ms-3">{{ adhesion.startingDate|format_datetime('long', 'none', locale='fr') }}</span></p>
 
-                    <p class="ms-3 fw-semibold">Date de fin d'adhésion : <span class="fw-normal">{{ adhesion.endingDate|date('d-m-Y') }}</span></p>
+                    <p class="ms-3 fw-semibold">Date de fin d'adhésion : <span class="fw-normal ms-3">{{ adhesion.endingDate|format_datetime('long', 'none', locale='fr') }}</span></p>
 
                     <a href="{{ path('app_adhesion_delete', {id: adhesion.id}) }}" class="btn btn-light">Supprimer cette adhésion</a>
                   </li>

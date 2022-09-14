@@ -34,6 +34,7 @@ class AdherentsRepository extends ServiceEntityRepository
         from adherents left join adhesions 
         on adherents.id = adhesions.adherent_id 
         group by adherents.id
+        ORDER BY derniere_adhesion ASC
         ;
         ';
         $stmt = $conn->prepare($sql);
