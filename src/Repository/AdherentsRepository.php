@@ -21,6 +21,29 @@ class AdherentsRepository extends ServiceEntityRepository
         parent::__construct($registry, Adherents::class);
     }
 
+    public function findAllWithLastAdhesion(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+        SELECT adherents.id, adherents.first_name, adherents.last_name, adherents.tel, adherents.email, adhesions.ending_date 
+        FROM adherents
+        LEFT JOIN adhesions
+        ON adherents.id = adhesions.adherent_id
+        WHERE (starting_date < now() 
+        AND ending_date > now())
+        OR ending_date IS NULL
+        ;
+        ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+
+        //dump($resultSet);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
+    }
+    
     public function add(Adherents $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

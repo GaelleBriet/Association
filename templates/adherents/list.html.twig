@@ -26,24 +26,11 @@
                                     
                             <tr class="table-striped">
                                 <td>{{ adherent.id }}</td>
-                                <td>{{ adherent.firstName }}</td>
-                                <td>{{ adherent.lastName }}</td>
+                                <td>{{ adherent.first_name }}</td>
+                                <td>{{ adherent.last_name }}</td>
                                 <td>{{ adherent.tel|u.wordwrap(2, " ", 1) }}</td>
                                 <td>{{ adherent.email }}</td>
-{# 
-                                {% for adherentId in adherent %}
-
-                                        <td>{{ adherent.id }}</td>
-
-                                {% endfor %} #}
-                                {% for adhesion in adhesion %}
-                                    {% if adhesion.adherent == adherent %}
-                                        <td>{{ adhesion.endingDate|date('d-m-Y') }}</td>
-                                    {% else %}
-                                        <td>ooo</td>
-                                    {% endif %}
-                                {% endfor %}
-                                    
+                                <td>{{ adherent.ending_date }}</td>   
                                 <td>
                                     <a href="{{ path('app_adherents_show', {id: adherent.id}) }}" class="btn btn-secondary btn-sm mx-auto">Détails</a>
                                 </td>
