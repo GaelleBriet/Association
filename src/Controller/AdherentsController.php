@@ -24,6 +24,16 @@ class AdherentsController extends AbstractController
     public function list(AdherentsRepository $adherentsRepository, AdhesionsRepository $adhesionsRepository): Response
     {
         $adherent = $adherentsRepository->findAllWithLastAdhesion();
+
+        for ($i = 0; $i < count($adherent); $i++) {
+
+            if (empty($adherent[$i]['derniere_adhesion'])) {
+
+                array_push($adherent, $adherent[$i]);
+                array_shift($adherent);
+            }
+        }
+
         return $this->render('adherents/list.html.twig', [
             'adherent' => $adherent
         ]);
