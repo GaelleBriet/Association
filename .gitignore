@@ -28,3 +28,6 @@ yarn-error.log
 
 ### Mac crap
 .DS_Store
+migrations/Version20220914132207.php
+
+migrations/Version20220914131033.php

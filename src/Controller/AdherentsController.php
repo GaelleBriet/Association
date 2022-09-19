@@ -3,11 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Adherents;
-use App\Entity\Adhesions;
 use App\Form\AdherentsCreateType;
-use App\Form\AdhesionAddType;
 use App\Repository\AdherentsRepository;
-use App\Repository\AdhesionsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,23 +18,42 @@ class AdherentsController extends AbstractController
     #[Route('', name: 'app_adherents', methods: 'GET')]
     #[Route('/list', name: 'app_adherents_list', methods: 'GET')]
     #[Security("is_granted('ROLE_ADMIN')")]
-    public function list(AdherentsRepository $adherentsRepository, AdhesionsRepository $adhesionsRepository): Response
+    public function list(AdherentsRepository $adherentsRepository): Response
     {
-        $adherent = $adherentsRepository->findAllWithLastAdhesion();
+        $adherents = $adherentsRepository->findAllWithLastAdhesion();
 
-        for ($i = 0; $i < count($adherent); $i++) {
+        // je crée un tableau qui contiendra les index à mettre à la fin
+        $avirer = [];
 
-            if (empty($adherent[$i]['derniere_adhesion'])) {
-
-                array_push($adherent, $adherent[$i]);
-                array_shift($adherent);
+        // Pour chaque adhérent...
+        foreach ($adherents as $key => $adherent) {
+            // je vérifie si la dernière adhesion existe ou pas
+            if (!$adherent['derniere_adhesion']) {
+                // si elle n'existe pas, j'ajoute l'index à la liste des index à virer
+                $avirer[] = $key;
             }
         }
 
+        // Ensuite pour chaque index du tableau des index à mettre à la fin
+        foreach ($avirer as $key => $value) {
+            // je copie l'entrée du tableau qui est dans avirer
+            $copie = $adherents[$value];
+            // je supprime l'entrée du tableau qui est dans avirer
+            unset($adherents[$value]);
+            // je rajoute ma copie à la fin du tableau
+            array_push($adherents, $copie);
+        }
+
+
+        $today = new \DateTime();
+        $today->add(new \DateInterval('P31D'));
+
         return $this->render('adherents/list.html.twig', [
-            'adherent' => $adherent
+            'adherent' => $adherents,
+            'today' => $today,
         ]);
     }
+
 
     #[Route('/{id<[0-9]+>}', name: 'app_adherents_show', methods: 'GET')]
     #[Security("is_granted('ROLE_ADMIN')")]
@@ -50,9 +66,12 @@ class AdherentsController extends AbstractController
         ]);
     }
 
+
     #[Route('/{id<[0-9]+>}/delete', name: 'app_adherents_delete', methods: 'GET')]
+    #[Security("is_granted('ROLE_ADMIN')")]
     public function delete(Adherents $adherent, EntityManagerInterface $em): Response
     {
+        $this->addFlash('info', 'Adhérent supprimé avec succès!');
         $em->remove($adherent);
         $em->flush();
 
@@ -73,6 +92,8 @@ class AdherentsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
+
+            $this->addFlash('success', 'Adhérent modifié avec succes!');
 
             return $this->redirectToRoute('app_adherents');
         }
@@ -97,6 +118,8 @@ class AdherentsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($adherent);
             $em->flush();
+
+            $this->addFlash('succes', 'Adhérent créé avec success!');
 
             return $this->redirectToRoute('app_adherents');
         }

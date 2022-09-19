@@ -22,8 +22,13 @@
                     </thead>
 
                     <tbody class="text-center">
-                        {% for adherent in adherent %}
 
+                        {# {% for adherent in adherentDanger %}
+                            <p>{{ adherentDanger.id }}</p>
+                        {% endfor %} #}
+
+                        {% for adherent in adherent %}
+                        
                             <tr class="table-striped">
                                 <td>{{ adherent.id }}</td>
                                 <td>{{ adherent.first_name }}</td>
@@ -31,7 +36,13 @@
                                 <td>{{ adherent.tel|u.wordwrap(2, " ", 1) }}</td>
                                 <td>{{ adherent.email }}</td>
                                 {% if adherent.derniere_adhesion is not empty %}
-                                    <td>{{ adherent.derniere_adhesion|format_datetime('long', 'none', locale='fr') }}</td>
+
+                                    {% if adherent.derniere_adhesion|date('Y-m-d') < today|date('Y-m-d') %}
+                                        <td style="color: red;">{{ adherent.derniere_adhesion|format_datetime('long', 'none', locale='fr') }}</td>
+                                    {% else %}
+                                        <td>{{ adherent.derniere_adhesion|format_datetime('long', 'none', locale='fr') }}</td>
+                                    {% endif %}
+
                                 {% else %}
                                     <td></td>
                                 {% endif %}
@@ -40,7 +51,6 @@
                                     <a href="{{ path('app_adherents_show', {id: adherent.id}) }}" class="btn btn-secondary btn-sm mx-auto">Détails</a>
                                 </td>
                             </tr>
-
 
                         {% endfor %}
 

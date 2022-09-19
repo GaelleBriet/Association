@@ -18,6 +18,7 @@
           <div class="d-inline">
             <input type="submit" value="Ajouter une adhésion" class="mb-3 btn btn-primary me-3 col-12" formnovalidate="formnovalidate">
           </div>
+          <a href="{{ path('app_adherents_show', {id: adherent.id}) }}" class="btn btn-secondary mb-3 col-12 me-3">Retour à l'adhérent</a>
           
         {{ form_end(form) }}
           

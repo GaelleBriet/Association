@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AdhesionsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AdhesionsRepository::class)]
 class Adhesions
@@ -15,9 +16,11 @@ class Adhesions
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: 'Indiquez la date de début de l\'adhésion')]
     private ?\DateTimeInterface $starting_date = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, options: ["default" => '2200-01-01'])]
+    #[Assert\NotBlank(message: 'Indiquez la date de fin de l\'adhésion')]
     private ?\DateTimeInterface $ending_date = null;
 
     #[ORM\ManyToOne(inversedBy: 'adhesions')]

@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdhesionsController extends AbstractController
 {
     #[Route('/adhesion/{id<[0-9]+>}/delete', name: 'app_adhesion_delete', methods: 'GET')]
+    #[Security("is_granted('ROLE_ADMIN')")]
     public function delete(Adhesions $adhesion, EntityManagerInterface $em): Response
     {
         $em->remove($adhesion);
@@ -46,6 +47,7 @@ class AdhesionsController extends AbstractController
 
         return $this->render('adhesions/index.html.twig', [
             'adhesion' => $adhesion,
+            'adherent' => $adherents,
             'form' => $form->createView()
         ]);
     }

@@ -4,8 +4,6 @@ namespace App\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\AdherentsRepository;
-use App\Repository\AdhesionsRepository;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -22,18 +20,20 @@ class Adherents
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Entrez le prénom de l\'adhérent.')]
     private ?string $first_name = null;
 
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Entrez le nom de l\'adhérent.')]
     private ?string $last_name = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 10, nullable: true)]
+    #[Assert\Length(min: 10, max: 10, minMessage: 'Entrez un numéro de téléphone de 10 chiffres sans espace ni ponctuation.', maxMessage: 'Entrez un numéro de téléphone de 10 chiffres sans espace ni ponctuation.')]
     private ?string $tel = null;
 
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Entrez l\'adresse email de l\'adhérent.')]
+    #[Assert\Email(message: 'Entrez un email de type moi@example.com')]
     private ?string $email = null;
 
     #[ORM\OneToMany(mappedBy: 'adherent', targetEntity: Adhesions::class, orphanRemoval: true)]
