@@ -6,6 +6,7 @@ use App\Entity\Adherents;
 use App\Form\AdherentsCreateType;
 use App\Repository\AdherentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,7 +68,7 @@ class AdherentsController extends AbstractController
     }
 
 
-    #[Route('/{id<[0-9]+>}/delete', name: 'app_adherents_delete', methods: 'GET')]
+    #[Route('/{id<[0-9]+>}/delete', name: 'app_adherents_delete', methods: 'DELETE')]
     #[Security("is_granted('ROLE_ADMIN')")]
     public function delete(Adherents $adherent, EntityManagerInterface $em): Response
     {

@@ -6,14 +6,15 @@
         <div class="row justify-content-center">
             <h2>{{ pluralize(adherent|length, 'Adhérent', 'Adhérents') }}</h2>
 
-            <div class="table-responsive mt-5" style="overflow: auto; height:600px">
-                <table class="table table-bordered table-fixed table-striped" id="dataTable">
+
+            <div class="table-responsive-sm mt-5" style="overflow: auto; height:600px">
+                <table class="table table-bordered table-fixed table-striped" data-toggle="table" data-search="true" data-pagination="true" id="dataTable">
 
                     <thead class="text-light text-center" style="position: sticky; top: 0; background-color: var(--bs-gray-800);">
                         <tr>
-                            <th style="position: sticky; top:0;">Identifiant</th>
-                            <th style="position: sticky; top:0;">Prénom</th>
-                            <th style="position: sticky; top:0;">Nom</th>
+                            <th data-sortable="true" style="position: sticky; top:0;">Identifiant</th>
+                            <th data-sortable="true" style="position: sticky; top:0;">Prénom</th>
+                            <th data-sortable="true" style="position: sticky; top:0;">Nom</th>
                             <th style="position: sticky; top:0;">Téléphone</th>
                             <th style="position: sticky; top:0;">Adresse e-mail</th>
                             <th style="position: sticky; top:0;">Fin d 'adhésion</th>

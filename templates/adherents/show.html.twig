@@ -6,7 +6,7 @@
   {# {% for adhesion in adhesion %} #}
 
     <div class="row">
-      <div class="col-md-6 mx-auto">
+      <div class="col-md-8 mx-auto">
         <article class="bg-white rounded shadow pin my-5">
 
           <div class="row p-3">
@@ -15,46 +15,54 @@
                 Adhérent créé le 
                 <time>{{adherent.createdAt|format_datetime('full', 'none', locale='fr')}}</time>
             </p>
-
-            <p class="col-4 ms-3 fw-semibold">Téléphone : </p>
-            <p class="col-6">{{ adherent.tel|u.wordwrap(2, " ", 1) }}</p>
-
-            <p class="col-4 ms-3 fw-semibold">E-mail : </p>
-            <p class="col-6">{{adherent.email}}</p>
+            <div class="d-flex ">
+              {# <p class="col-3 ms-3 fw-semibold">Téléphone : </p>
+              <p class="col-6">{{ adherent.tel|u.wordwrap(2, " ", 1) }}</p> #}
+              <p class="fw-semibold mx-5">Téléphone : </p>
+              <p class=""> {{ adherent.tel|u.wordwrap(2, " ", 1) }}</p>
+            </div>
+            <div class="d-flex">
+              <p class="fw-semibold mx-5">E-mail : </p>
+              <p class="">{{adherent.email}}</p>
+            </div>
 
           </div>
 
-          <div class="p-3">
-            <p class="ps-3 fw-semibold"> Historique des adhésions :</p>
-            {% for adhesion in adhesion %}
-              {% if adhesion is not empty %}
-                <ul class="list-group">
-                  <li class="list-group-item mb-3">
-                    <p class="col-12 ms-3 fw-semibold">Date de début d'adhésion: <span class="fw-normal ms-3">{{ adhesion.startingDate|format_datetime('long', 'none', locale='fr') }}</span></p>
+          {% if adhesion is not empty %}
+            <div class="px-5">
+                <p class="h5 mb-3"> Historique des adhésions :</p>
+              <ul class="list-group">
+                {% for adhesion in adhesion %}
+                  {% if adhesion is not empty %}
+                      <li class="list-group-item row">
+                        <p class="col-12 fw-semibold">Date de début d'adhésion: <span class="fw-normal ms-3 me-5">{{ adhesion.startingDate|format_datetime('long', 'none', locale='fr') }}</span></p>
+                        <p class="col-12 fw-semibold">Date de fin d'adhésion : <span class="fw-normal ms-3">{{ adhesion.endingDate|format_datetime('long', 'none', locale='fr') }}</span></p>
 
-                    <p class="ms-3 fw-semibold">Date de fin d'adhésion : <span class="fw-normal ms-3">{{ adhesion.endingDate|format_datetime('long', 'none', locale='fr') }}</span></p>
+                        <a href="{{ path('app_adhesion_delete', {id: adhesion.id}) }}" class="btn btn-outline-danger btn-sm col-4">Supprimer cette adhésion</a>
+                      </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
 
-                    <a href="{{ path('app_adhesion_delete', {id: adhesion.id}) }}" class="btn btn-light">Supprimer cette adhésion</a>
-                  </li>
-                </ul>
-              {% endif %}
-            {% endfor %}
+          <div class="d-flex justify-content-center mt-3">
+            <a href="{{ path('app_adhesion_create', {id: adherent.id}) }}" class="btn btn-secondary mb-3 me-3 col-5">Ajouter une adhésion</a>
+            <a href="{{ path('app_adherents_edit', {id: adherent.id}) }}" class="mb-3 btn btn-secondary col-5">Modifier l'adhérent</a>
           </div>
-
-          <div class="p-5 justify-content-center">
-            <a href="{{ path('app_adhesion_create', {id: adherent.id}) }}" class="mb-3 btn btn-light col-12">Ajouter une adhésion</a>
-            <a href="{{ path('app_adherents_edit', {id: adherent.id}) }}" class="mb-3 btn btn-light col-12">Modifier l'adhérent</a>
-            <a href="{{ path('app_adherents_delete', {id: adherent.id}) }}" class="mb-3 btn btn-secondary  col-12">Supprimer l'adhérent</a>
-          </div>
-
         </article>
+            <a href="#" onclick="event.preventDefault(); confirm('Êtes-vous sûr de vouloir supprimer?') && 
+              document.getElementById('js-delete').submit()" class="mb-3 btn btn-secondary  col-12">Supprimer l'adhérent</a>
+            {# <a href="{{ path('app_adherents_delete', {id: adherent.id}) }}" class="mb-3 btn btn-secondary  col-12">Supprimer l'adhérent</a> #}
+            <a href="{{ path('app_adherents_list') }}" class="mb-3 btn btn-secondary col-12">Retour à la liste des adhérents</a>
 
-        <div class="row justify-content-center ">
-          <a href="{{ path('app_adherents_list') }}" class="my-3 btn btn-secondary mx-auto col-6">Retour à la liste des adhérents</a>
-        </div>
+            {# formulaire de suppression #}
+            <form id="js-delete" action="{{ path('app_adherents_delete', {id: adherent.id}) }}" method="POST" style="display:none">
+              {# <input type="hidden" name="csrf_token" value="{{ csrf_token('pin_deletion_'~pin.id) }}"> #}
+              <input type="hidden" name="_method" value="DELETE">
+            </form>
       </div>  
     </div>
-  {# {% endfor %}           #}
 {% endblock %}
 
 
